@@ -1,0 +1,227 @@
+<html>
+    <head>
+        <!-- Main CSS-->
+        <link href="css/main.css" rel="stylesheet" media="all">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     
+
+
+        <style>
+               body{
+                   background-color: black;
+        }
+
+        footer{
+            padding:10px;
+            text-align:center;
+            color: aliceblue;
+        }
+            .fa {
+              
+              
+              width: 40px;
+              text-align: center;
+              text-decoration: none;
+              margin: 5px 1px;
+              border-radius: 100%;
+              font-size:30px;
+            }
+            
+            .fa:hover {
+                opacity: 0.7;
+            }
+            
+            .fa-twitter {
+              color: #55ACEE;
+            }
+            
+            
+            .fa-linkedin {
+              color:  #007bb5; 
+            }
+            
+            .fa-instagram {
+              color: rgb(168, 64, 64);
+            }
+            </style>
+
+    </head>
+    <body>
+       
+        <div style="padding: 20px;float:right"> <a href="https://github.com/mayukh00" class="fa fa-github-square" style="float:right; "  target="_blank"></a>
+            <h5 style="color: azure; padding: 10px;float:right;" >GitHub Code.</h5></div>
+               
+       <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+           <div class="wrapper wrapper--w780">
+            <div class="card card-3">
+                <div class="card-heading"></div>
+                <div class="card-body">
+                    
+                    <h2 class="title">Transaction.</h2>
+                    
+                
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" id= "amount" placeholder="Enter Balance" >
+                      </div>
+                        
+                
+                       
+                         <p  style="color: rgb(255, 255, 255);" id="">Current Amount:</p>
+                         <p style="color: rgb(255, 255, 255);" id="balance"></p>
+                      
+                            
+                        &nbsp;&nbsp;&nbsp;
+                        
+                             <button id="deposit" style="margin:10px;">Deposit</button>
+                        
+                        &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
+                        
+                            <button id="withdraw" style="margin:10px;">Withdraw</button>
+                      
+                        
+                      </div>
+            </div>
+        </div>
+    </div>
+
+    
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+       
+       
+       <script>
+           var contract;
+
+           $(document).ready(function()
+           {
+              web3=new Web3(window.ethereum);
+              // web3=new Web3(web3.currentProvider);
+
+
+               
+
+              // 0x705A1f54155744598C51260Fc10B721bdB4Afd5F 
+
+               var address="0xe80638207a953C5cBf020AaA10a6d6c828092e0D";  //address of the deployed contract in remix ide and not of ur metamask acnt. 
+            //    0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
+            //    0x075Ef67a2cE34842e47760A983688dE56f93F0e2
+            //    0xCcbaCE737c054d37bcE29414ed3655ac01EFeCc6
+            //    0xe80638207a953C5cBf020AaA10a6d6c828092e0D
+               var abi= [
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getBalance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "amt",
+				"type": "int256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "amt",
+				"type": "int256"
+			}
+		],
+		"name": "deposit",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+];
+
+                
+                contract= new web3.eth.Contract(abi, address);
+
+                //get balance
+                contract.methods.getBalance().call().then(function(bal)
+               {
+                   $('#balance').html(bal);
+               })
+           })
+
+           //DEPOSIT
+           $('#deposit').click(function()
+           {
+               var amt=0;
+               amt=parseInt($('#amount').val());
+
+               web3.eth.getAccounts().then(function(accounts)
+               {
+                   var acc= accounts[0];
+                   return contract.methods.deposit(amt).send({from:accounts[0]});
+               }).then(function(tx)
+               {
+                   console.log(tx);
+               }).catch(function(tx)
+               {
+                   console.log(tx);
+               })
+           })
+
+           //WITHDRAW
+           $('#withdraw').click(function()
+           {
+               var amt=0;
+               amt=parseInt($('#amount').val());
+
+               web3.eth.getAccounts().then(function(accounts)
+               {
+                   var acc= accounts[0];
+                   return contract.methods.withdraw(amt).send({from:accounts[0]});
+               }).then(function(tx)
+               {
+                   console.log(tx);
+               }).catch(function(tx)
+               {
+                   console.log(tx);
+               })
+           })
+
+           
+        </script>
+
+        <footer >
+            <h1 >Connect to me.</h1>
+             <a href="https://twitter.com/MayukhChatter19" class="fa fa-twitter"   target="_blank"></a>
+             <a href="https://www.linkedin.com/in/mayukhchatterjee404/" class="fa fa-linkedin"  target="_blank"></a>
+             <a href="https://www.instagram.com/mayukh.432hz/" class="fa fa-instagram"  target="_blank"></a>
+             <a href=" https://www.quora.com/profile/Mayukh-Chatterjee-%E0%A6%AE%E0%A7%9F%E0%A7%82%E0%A6%96-%E0%A6%9A%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%9C%E0%A7%80" class="fa fa-quora" style="font-size:25px;color: red"  target="_blank"></a>
+             <a href="https://github.com/mayukh00" class="fa fa-github"  target="_blank"></a>
+        </footer>
+
+
+    
+    
+    </body>
+    
+</html>
