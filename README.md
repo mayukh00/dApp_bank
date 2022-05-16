@@ -1,5 +1,5 @@
 # dApp_bank
 This is a mini banking website based on the Ethereum Blockchain network which helps you to deposit and withdraw ether amounts via metamask wallet.
-You need to connect your metamask wallet with your site to make it working.
+You need to connect your metamask wallet with the site to make it working.
 
-https://mayukh00.github.io/dApp_bank/
+Website: http://crypto.knittingthoughts.in.net/
